@@ -1,11 +1,12 @@
 {
-  "name": "byteball-hub",
-  "description": "Byteball Hub",
-  "author": "Byteball",
+  "name": "dagcoin-hub",
+  "description": "Dagcoin Hub",
+  "author": "Dagcoin",
   "version": "0.1.5",
   "main": "start.js",
   "keywords": [
     "hub",
+    "dagcoin",
     "byteball",
     "messaging",
     "chat"
@@ -15,11 +16,11 @@
   },
   "license": "MIT",
   "repository": {
-    "url": "git://github.com/byteball/byteball-hub.git",
+    "url": "git://github.com/dagcoin/dagcoin-hub.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/byteball/byteball-hub/issues"
+    "url": "https://github.com/dagcoin/dagcoin-hub/issues"
   },
   "browser": {
     "request": "browser-request",
