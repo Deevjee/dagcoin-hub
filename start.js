@@ -54,7 +54,7 @@ function startBalanceService() {
 
         getAddressBalances(address).then((balances) => {
             console.log(`BALANCES FOR ${address}: ${JSON.stringify(balances)}`);
-            res.send(`BALANCES FOR ${address}: ${JSON.stringify(balances)}`);
+            res.json(balances);
             res.end();
 		});
     });
