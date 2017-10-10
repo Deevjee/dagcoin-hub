@@ -1,8 +1,8 @@
 /*jslint node: true */
 "use strict";
 
-exports.clientName = 'dagcoin-tn';
-exports.minClientVersion = '1.2.3';
+exports.clientName = 'dagcoin';
+exports.minClientVersion = '1.3.1';
 
 // https://console.developers.google.com
 exports.pushApiProjectNumber = 0;
@@ -72,7 +72,7 @@ exports.initial_witnesses = [
 ];
 */
 exports.initial_peers = [
-	'wss://byteball.org/bb-test'
+	'wss://byteball.org/bb'
 ];
 
 console.log('finished hub conf');
