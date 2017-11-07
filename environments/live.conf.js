@@ -1,9 +1,10 @@
 /*jslint node: true */
 "use strict";
 
+exports.evn = 'live'
 exports.clientName = 'dagcoin';
 exports.minClientVersion = '1.3.1';
-
+exports.sentryUrl = 'https://9a11a2228fda4017b1c8eb2bcb742d65:77b6a8df59ef4fbe8c07f093d1f965ec@sentry.io/241494'
 // https://console.developers.google.com
 exports.pushApiProjectNumber = 0;
 exports.pushApiKey = '';

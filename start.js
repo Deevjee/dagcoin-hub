@@ -5,6 +5,14 @@ var conf = require('./conf');
 var network = require('byteballcore/network');
 var eventBus = require('byteballcore/event_bus.js');
 var push = require('./push');
+var Raven = require('raven');
+
+if (conf.sentryUrl) {
+  Raven.config(conf.sentryUrl, {
+    sendTimeout: 5,
+    environment: conf.environment
+  }).install();
+}
 
 eventBus.on('peer_version', function (ws, body) {
 	if (body.program == conf.clientName) {
