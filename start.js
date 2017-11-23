@@ -75,7 +75,7 @@ function getAddressBalances(address) {
         	"SELECT COALESCE(outputs.asset, 'base') as asset, units.is_stable as stable, sum(outputs.amount) as amount \n\
 			FROM outputs, units \n\
 			WHERE units.unit = outputs.unit AND outputs.address = ? AND outputs.is_spent=0 \n\
-			GROUP BY outputs.address, outputs.asset",
+			GROUP BY outputs.address, outputs.asset, units.is_stable",
 			[address],
 			(rows) => {
         		const balances = {};

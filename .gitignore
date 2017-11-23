@@ -36,3 +36,15 @@ Session.vim
 .netrwhist
 *~
 
+# locally generated files
+conf.js
+database.json
+.idea/
+
+# Current log files
+hub.err.txt
+hub.out.txt
+
+# History log directories
+out/
+err/
