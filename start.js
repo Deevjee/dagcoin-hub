@@ -15,6 +15,56 @@ eventBus.on('peer_version', function (ws, body) {
 	}
 });
 
+function receipt(receiptRequest) {
+	const storage = require('byteballcore/storage');
+	const db = require('byteballcore/db');
+
+    const Unit = require('./services/unitUtility');
+    const unit = new Unit(receiptRequest.unitHash);
+
+	return unit.load()
+	.then((u) => u.checkIsDagcoin())
+	.then((isDagcoin) => {
+		console.log('IS' + (isDagcoin?' RELATED ' : ' NOT RELATED ') + 'TO DAGCOIN');
+		if (isDagcoin) {
+		    return checkAuthor(unit, receiptRequest.proof.address);
+        } else {
+		    return Promise.resolve();
+        }
+	});
+}
+
+function checkAuthor(unit, address) {
+    return unit.checkHasAuthor(address).then((hasAuthor) => {
+        if(!hasAuthor) {
+            console.log(`ADDRESS ${address} NOT FOUND IN UNIT ${unit.hash} AUTHORS`);
+            return Promise.resolve(false);
+        } else {
+            console.log(`ADDRESS ${address} FOUND IN UNIT ${unit.hash} AUTHORS`);
+        }
+    });
+}
+
+/* const paymentProofService = require('./services/paymentProofService').getInstance();
+
+paymentProofService.issuePaymentProof(
+    {
+        address: 'RUXRF5BTPB7ANLLQBSN6CAQBQXRNWJPM',
+        address_definition: '["sig",{"pubkey":"A/G7GCUF63j6Do2CFVTGJqQjIjmjOO1iRT0HV4dnHR0B"}]',
+        text_signature: 'hnzBYkFac6e8gqZVrgACeGJKFzt8Fp/LQNQ9XGvmy0dgBqj8+drYMKltgCc0Nhfq54qSXEHrQHmZK67ensJFug=='
+    },
+    '1231',
+    'Quj2h6Kb73/gC4YwLkFEC3Wjwyn4cPJ3nZZD5WmlHfQ='
+).catch((e) => {
+    console.error(e, e.stack);
+}).then(() => {
+    process.exit();
+}); */
+
+//receipt('OISL1Jy7zKI6H75OM4+ir8vIFZIWoTUfBhksZ1vwmcY=') // bytes only
+
+
+
 function compareVersions(currentVersion, minVersion) {
 	if (currentVersion === minVersion) return '==';
 
@@ -59,12 +109,31 @@ function startBalanceService() {
 		});
     });
 
+    app.get('/getUnit', function (req, res) {
+        const unitHash = req.query.unit;
+
+        res.set("Connection", "close");
+
+        const Unit = require('./services/unitUtility');
+        const unit = new Unit(unitHash);
+
+        return unit.load()
+		.then((u) => {
+            return unit.getPaymentInfo();
+        }).then((u) => {
+            res.json(u);
+            res.end();
+		}).catch((err) => {
+			res.json(err);
+			res.end();
+		});
+    });
+
     var server = app.listen(9852, function () {
+        var host = server.address().address;
+        var port = server.address().port;
 
-        var host = server.address().address
-        var port = server.address().port
-
-        console.log("Example app listening at http://%s:%s", host, port)
+        console.log("Example app listening at http://%s:%s", host, port);
     });
 }
 
