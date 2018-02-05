@@ -203,7 +203,7 @@ Unit.prototype.getPaymentInfo = function () {
 
   const self = this;
 
-  return self.checkIsStable(
+  return self.checkIsDagcoin(
   ).then((isDagcoin) => {
       unitInfo.isDagcoin = isDagcoin;
 
