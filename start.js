@@ -124,7 +124,7 @@ function startBalanceService() {
             res.json(u);
             res.end();
 		}).catch((err) => {
-			res.json(err);
+			res.status(404).json({error: err});
 			res.end();
 		});
     });
