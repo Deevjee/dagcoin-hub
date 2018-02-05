@@ -216,6 +216,8 @@ Unit.prototype.getPaymentInfo = function () {
 };
 
 Unit.prototype.getAdditionalPaymentInfo = function (unitInfo) {
+    const self = this;
+
     return self.checkIsStable().then((isStable) => {
         unitInfo.isStable = isStable;
 
