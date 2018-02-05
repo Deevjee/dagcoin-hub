@@ -208,29 +208,33 @@ Unit.prototype.getPaymentInfo = function () {
       unitInfo.isDagcoin = isDagcoin;
 
       if (isDagcoin) {
-          return self.checkIsStable();
+          return self.getAdditionalPaymentInfo(unitInfo);
       } else {
           return Promise.resolve(unitInfo);
       }
-  }).then((isStable) => {
-      unitInfo.isStable = isStable;
-
-      console.log(`IS STABLE? ${isStable}`);
-      //TODO: return next info checker
-      return self.getDagcoinPaymentAuthors();
-  }).then((dagcoinPayers) => {
-      unitInfo.dagcoinPayers = dagcoinPayers;
-
-      return self.getReceiptId();
-  }).then((paymentId) => {
-      unitInfo.paymentId = paymentId;
-
-      return self.getDagcoinReceivers();
-  }).then((dagcoinReceivers) => {
-      unitInfo.dagcoinReceivers = dagcoinReceivers;
-
-      return Promise.resolve(unitInfo);
   });
+};
+
+Unit.prototype.getAdditionalPaymentInfo = function (unitInfo) {
+    return self.checkIsStable().then((isStable) => {
+        unitInfo.isStable = isStable;
+
+        console.log(`IS STABLE? ${isStable}`);
+        //TODO: return next info checker
+        return self.getDagcoinPaymentAuthors();
+    }).then((dagcoinPayers) => {
+        unitInfo.dagcoinPayers = dagcoinPayers;
+
+        return self.getReceiptId();
+    }).then((paymentId) => {
+        unitInfo.paymentId = paymentId;
+
+        return self.getDagcoinReceivers();
+    }).then((dagcoinReceivers) => {
+        unitInfo.dagcoinReceivers = dagcoinReceivers;
+
+        return Promise.resolve(unitInfo);
+    });
 };
 
 Unit.prototype.checkIsStable = function () {
