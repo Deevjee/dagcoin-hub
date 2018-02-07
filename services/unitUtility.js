@@ -199,20 +199,19 @@ Unit.prototype.getInvoiceId = function () {
 };
 
 Unit.prototype.getPaymentInfo = function () {
-  const unitInfo = {};
+    const self = this;
 
-  const self = this;
+    const unitInfo = { paymentUnitId: self.hash};
+    return self.checkIsDagcoin(
+    ).then((isDagcoin) => {
+        unitInfo.isDagcoin = isDagcoin;
 
-  return self.checkIsDagcoin(
-  ).then((isDagcoin) => {
-      unitInfo.isDagcoin = isDagcoin;
-
-      if (isDagcoin) {
-          return self.getAdditionalPaymentInfo(unitInfo);
-      } else {
-          return Promise.resolve(unitInfo);
-      }
-  });
+        if (isDagcoin) {
+            return self.getAdditionalPaymentInfo(unitInfo);
+        } else {
+            return Promise.resolve(unitInfo);
+        }
+    });
 };
 
 Unit.prototype.getAdditionalPaymentInfo = function (unitInfo) {
