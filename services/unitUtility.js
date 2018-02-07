@@ -171,10 +171,10 @@ Unit.prototype.getDagcoinPaymentAuthors = function () {
     });
 };
 
-Unit.prototype.getReceiptId = function () {
+Unit.prototype.getInvoiceId = function () {
     const self = this;
 
-    let paymentId = null;
+    let invoiceId = null;
     let error = null;
 
     self.unit.messages.forEach((message) => {
@@ -183,11 +183,11 @@ Unit.prototype.getReceiptId = function () {
 
             console.log(JSON.stringify(receipt));
 
-            if (paymentId) {
+            if (invoiceId) {
                 error = `PAYMENT ID DECLARED MULTIPLE TIMES IN UNIT ${self.hash}`;
             }
 
-            paymentId = receipt.paymentId;
+            invoiceId = receipt.invoiceId;
         }
     });
 
@@ -195,7 +195,7 @@ Unit.prototype.getReceiptId = function () {
         return Promise.reject(error);
     }
 
-    return Promise.resolve(paymentId);
+    return Promise.resolve(invoiceId);
 };
 
 Unit.prototype.getPaymentInfo = function () {
@@ -227,9 +227,9 @@ Unit.prototype.getAdditionalPaymentInfo = function (unitInfo) {
     }).then((dagcoinPayers) => {
         unitInfo.dagcoinPayers = dagcoinPayers;
 
-        return self.getReceiptId();
-    }).then((paymentId) => {
-        unitInfo.paymentId = paymentId;
+        return self.getInvoiceId();
+    }).then((invoiceId) => {
+        unitInfo.invoiceId = invoiceId;
 
         return self.getDagcoinReceivers();
     }).then((dagcoinReceivers) => {
