@@ -201,12 +201,15 @@ Unit.prototype.getInvoiceId = function () {
 Unit.prototype.getPaymentInfo = function () {
     const self = this;
 
-    const unitInfo = { paymentUnitId: self.hash};
+    const unitInfo = {};
+
     return self.checkIsDagcoin(
     ).then((isDagcoin) => {
         unitInfo.isDagcoin = isDagcoin;
 
         if (isDagcoin) {
+            paymentUnitId: self.hash
+
             return self.getAdditionalPaymentInfo(unitInfo);
         } else {
             return Promise.resolve(unitInfo);
