@@ -208,7 +208,7 @@ Unit.prototype.getPaymentInfo = function () {
         unitInfo.isDagcoin = isDagcoin;
 
         if (isDagcoin) {
-            paymentUnitId: self.hash
+            unitInfo.paymentUnitId = self.hash
 
             return self.getAdditionalPaymentInfo(unitInfo);
         } else {
