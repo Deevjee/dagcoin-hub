@@ -17,6 +17,7 @@ exports.bLight = false;
 // this is used by wallet vendor only, to redirect bug reports to developers' email
 exports.bug_sink_email = 'admin@example.org';
 exports.bugs_from_email = 'bugs@example.org';
+exports.dagcoinAsset = 'B9dw3C3gMC+AODL/XqWjFh9jFe31jS08yf2C3zl8XGg=';
 
 exports.HEARTBEAT_TIMEOUT = 300*1000;
 
