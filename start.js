@@ -15,6 +15,49 @@ eventBus.on('peer_version', function (ws, body) {
 	}
 });
 
+eventBus.on('mci_became_stable', function (mci) {
+    const Unit = require('./services/unitUtility');
+	console.log('STABLE MCI: ' + JSON.stringify(mci));
+
+    const db = require('byteballcore/db');
+    db.query('SELECT unit FROM units WHERE main_chain_index = ?', [mci], (rows) => {
+    	if (rows == null || rows.length === 0) {
+    		return;
+		}
+
+		rows.forEach((row) => {
+			const unit = new Unit(row.unit);
+			unit.load().then(() => {
+                return unit.getInvoiceId();
+			}).then((invoiceId) => {
+                console.log(`UNIT ${unit.hash} WITH MCI ${mci} FOR INVOICE ${invoiceId}`);
+
+                if (invoiceId == null) {
+                	return;
+				}
+
+                const options = {
+                    uri: `${conf.MERCHANT_INTEGRATION_API}/payment-unit-updated`,
+                    method: 'POST',
+                    json: {
+                        invoiceId,
+                        'paymentUnitId': unit.hash
+                    }
+                };
+
+                const request = require('request');
+                request(options, (error, response, body) => {
+                    if (error) {
+                        console.log(`PAYMENT UNIT UPDATE ERROR: ${error}`);
+                    }
+                    console.log(`RESPONSE: ${JSON.stringify(response)}`);
+                    console.log(`BODY: ${JSON.stringify(body)}`);
+                });
+			});
+		});
+	});
+});
+
 function receipt(receiptRequest) {
 	const storage = require('byteballcore/storage');
 	const db = require('byteballcore/db');

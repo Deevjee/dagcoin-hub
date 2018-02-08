@@ -22,6 +22,9 @@ exports.HEARTBEAT_TIMEOUT = 300*1000;
 
 exports.storage = 'sqlite';
 
+exports.paymentApi = 'https://testnetexplorer.dagcoin.org/mocks/getPaymentById?paymentId=';
+
+exports.MERCHANT_INTEGRATION_API = '';
 
 exports.initial_witnesses = [
 	'BVVJ2K7ENPZZ3VYZFWQWK7ISPCATFIW3',

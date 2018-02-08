@@ -30,6 +30,7 @@
     "byteballcore": "^0.2.86",
     "byteball-relay": "git+https://github.com/byteball/byteball-relay.git",
     "dagcoin-core": "^0.6.6",
-    "express": "^4.16.1"
+    "express": "^4.16.1",
+    "request": "^2.83.0"
   }
 }
